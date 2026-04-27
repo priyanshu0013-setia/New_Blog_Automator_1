@@ -1,7 +1,7 @@
 import { useParams, useLocation } from "wouter";
 import { useGetArticle, useGetArticleLogs, useDeleteArticle, useRetryArticle, useRegenerateArticle, getListArticlesQueryKey } from "@workspace/api-client-react";
 import type { Article } from "@workspace/api-client-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, type QueryKey } from "@tanstack/react-query";
 import { StatusBadge, ZeroGptScore } from "@/components/shared";
 import { ArrowLeft, RefreshCw, Trash2, Copy, CheckCircle, XCircle, AlertCircle, FileText, Sparkles } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
@@ -56,7 +56,7 @@ export default function ArticleDetail() {
         const ctx = context as { previous?: Array<[unknown, Article[] | undefined]> } | undefined;
         if (ctx?.previous) {
           for (const [key, value] of ctx.previous) {
-            qc.setQueryData(key, value);
+            qc.setQueryData(key as QueryKey, value);
           }
         }
         toast({ title: "Failed to delete article", variant: "destructive" });
